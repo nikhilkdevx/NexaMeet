@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import socket from "../socket";
 export default function Meeting(){
     const [formData,setFormData] = useState("");
@@ -7,6 +7,15 @@ export default function Meeting(){
         console.log("Join-meeting",{meetingId});
         socket.emit("join-meeting" ,{meetingId})
     };
+    useEffect(()=>{
+        const handleUserJoined = (data) => {
+            console.log("Another user Joined : ",data);
+        }
+        socket.on("user-joined",handleUserJoined);
+        return () =>{
+            socket.off("user-joined",handleUserJoined);
+        };
+    },[]);
     return (
         <div>
             <h1>Meeting Room</h1>

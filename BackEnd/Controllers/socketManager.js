@@ -9,7 +9,6 @@ const initSocket = (server) => {
 
     io.use((socket,next)=>{
         try{
-            console.log(socket.handshake);
             const token = socket.handshake.auth.token;
             const decoded = jwt.verify(token,process.env.JWT_SECERT);
             socket.user = decoded;
