@@ -22,9 +22,14 @@ const initSocket = (server) => {
     io.on("connection",(socket) => {
         console.log("Socket Connected : ",socket.id);
 
-        socket.on("join-meeting",({meetingId}) => {
+        socket.on("join-meeting",async ({meetingId}) => {
+
             console.log("Meeting ID Recieved",meetingId);
-            socket.join(meetingId);
+            await socket.join(meetingId);
+            const sockets = await io.in(meetingId).fetchSockets();
+            const participants = sockets
+            .filter((s)=> s.id !== socket.id)
+            .map((s)=>s.user.userId);
             socket.meetingId = meetingId;
             socket.to(meetingId).emit("user-joined",{userId:socket.user.userId});
         });
