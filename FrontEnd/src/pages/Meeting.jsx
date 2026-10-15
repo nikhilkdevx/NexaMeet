@@ -28,9 +28,11 @@ export default function Meeting(){
         };
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
+        socket.on("user-left",handleUserLeft);
         return () =>{
             socket.off("user-joined",handleUserJoined);
             socket.off("existing-participants",handleExistingParticipiants);
+            socket.off("user-left",handleUserLeft);
         };
     },[]);
     
