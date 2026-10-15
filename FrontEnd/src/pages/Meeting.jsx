@@ -11,11 +11,18 @@ export default function Meeting(){
         const handleUserJoined = (data) => {
             console.log("Another user Joined : ",data);
         }
+        const handleExistingParticipiants = (data) => {
+        console.log("Existing Participants",data.participants);
+        }
         socket.on("user-joined",handleUserJoined);
+        socket.on("existing-participants",handleExistingParticipiants);
         return () =>{
             socket.off("user-joined",handleUserJoined);
+            socket.off("existing-participants",handleExistingParticipiants);
         };
     },[]);
+    
+    
     return (
         <div>
             <h1>Meeting Room</h1>

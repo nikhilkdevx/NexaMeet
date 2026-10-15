@@ -30,6 +30,7 @@ const initSocket = (server) => {
             const participants = sockets
             .filter((s)=> s.id !== socket.id)
             .map((s)=>s.user.userId);
+            socket.emit("existing-participants",{participants});
             socket.meetingId = meetingId;
             socket.to(meetingId).emit("user-joined",{userId:socket.user.userId});
         });
