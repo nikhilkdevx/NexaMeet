@@ -10,12 +10,22 @@ export default function Meeting(){
     };
     useEffect(()=>{
         const handleUserJoined = (data) => {
-            console.log("Another user Joined : ",data);
-        }
+            setParticipants((currentParticipants)=>{
+            if(currentParticipants.includes(data.userId)){
+                return currentParticipants;
+            }
+            return [...currentParticipants,data.userId];
+            });
+        };
         const handleExistingParticipiants = (data) => {
         console.log("Existing Participants",data.participants);
         setParticipants(data.participants);
         }
+        const handleUserLeft = (data) => {
+            setParticipants((currentParticipants)=>
+            currentParticipants.filter((id) => id !== data.userId)
+            );
+        };
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
         return () =>{
