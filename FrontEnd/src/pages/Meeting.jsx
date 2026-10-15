@@ -3,6 +3,7 @@ import socket from "../socket";
 export default function Meeting(){
     const [formData,setFormData] = useState("");
     const [meetingId,setMeetingId] = useState("");
+    const [participants,setParticipants] = useState([]);
     const handleJoinMeeting = () =>{ 
         console.log("Join-meeting",{meetingId});
         socket.emit("join-meeting" ,{meetingId})
@@ -13,6 +14,7 @@ export default function Meeting(){
         }
         const handleExistingParticipiants = (data) => {
         console.log("Existing Participants",data.participants);
+        setParticipants(data.participants);
         }
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
@@ -35,6 +37,15 @@ export default function Meeting(){
             <button onClick= {handleJoinMeeting} >
                 Join Meeting
             </button>
+            
+            <h2>Participants</h2>
+            {participants.length === 0 ? (
+                <p>No Existing Participants.</p>
+            ) : (
+            participants.map((id)=>(
+                <p key={id}>{id}</p>
+            ))
+            )}
         </div>
     )
 }
