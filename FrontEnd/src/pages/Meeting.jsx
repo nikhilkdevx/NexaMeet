@@ -1,13 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
 export default function Meeting(){
     const [formData,setFormData] = useState("");
     const [meetingId,setMeetingId] = useState("");
     const [participants,setParticipants] = useState([]);
+    const [camera,setCamera] = useState(null);
+    const videoRef = useRef(null);
+
     const handleJoinMeeting = () =>{ 
         console.log("Join-meeting",{meetingId});
         socket.emit("join-meeting" ,{meetingId})
     };
+    const handleCamera = async () => {
+        try{
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video:true,
+            audio:true
+        });
+        console.log("Stream",stream);
+        console.log("Video tracks :",stream.getVideoTracks());
+            setCamera(stream);
+        } catch (err){
+            console.error("Camera access failed : ",err);
+        }
+    }
     useEffect(()=>{
         const handleUserJoined = (data) => {
             setParticipants((currentParticipants)=>{
@@ -36,6 +52,11 @@ export default function Meeting(){
         };
     },[]);
     
+    useEffect(()=>{
+        if(videoRef.current && camera){
+            videoRef.current.srcObject = camera;
+        }
+    },[camera]);
     
     return (
         <div>
@@ -58,6 +79,11 @@ export default function Meeting(){
                 <p key={id}>{id}</p>
             ))
             )}
+            <button onClick={handleCamera}>Start Camera</button>
+            <video ref={videoRef}
+            autoPlay 
+            muted 
+            playsInline />
         </div>
     )
 }
