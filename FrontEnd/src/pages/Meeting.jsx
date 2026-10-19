@@ -6,7 +6,7 @@ export default function Meeting(){
     const [participants,setParticipants] = useState([]);
     const [camera,setCamera] = useState(null);
     const videoRef = useRef(null);
-    const peerConnection = useRef(null);
+    const peerConnectionRef = useRef(null);
     
     const handleJoinMeeting = () =>{ 
         console.log("Join-meeting",{meetingId});
@@ -21,9 +21,21 @@ export default function Meeting(){
         console.log("Stream",stream);
         console.log("Video tracks :",stream.getVideoTracks());
             setCamera(stream);
+            handleConnection(stream);
         } catch (err){
             console.error("Camera access failed : ",err);
         }
+    }
+    const handleConnection = async (stream) => {
+        peerConnectionRef.current = new RTCPeerConnection({});
+        const tracks = stream.getTracks();
+        for(let i = 0;i<tracks.length;i++){
+            peerConnectionRef.current.addTrack(tracks[i],stream);
+        }
+        const offer = peerConnectionRef.current.createOffer();
+        await peerConnectionRef.current.setLocalDescription(offer);
+        socket.emit("send-offer",{meetingId,offer});
+        
     }
     useEffect(()=>{
         const handleUserJoined = (data) => {
@@ -43,13 +55,18 @@ export default function Meeting(){
             currentParticipants.filter((id) => id !== data.userId)
             );
         };
+        const handleReceiveOffer = (data) => {
+            console.log(data);
+        }
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
         socket.on("user-left",handleUserLeft);
+        socket.on("send-offer",handleReceiveOffer);
         return () =>{
             socket.off("user-joined",handleUserJoined);
             socket.off("existing-participants",handleExistingParticipiants);
             socket.off("user-left",handleUserLeft);
+            socket.off("send-offer",handleReceiveOffer);
         };
     },[]);
     

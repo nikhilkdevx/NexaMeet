@@ -57,7 +57,11 @@ const initSocket = (server) => {
             });
             delete socket.meetingId;
 
-        })
+        });
+
+        socket.on("send-offer",({meetingId,offer}) => {
+            socket.to(meetingId).emit("send-offer",{offer});
+        });
 
     });
 
