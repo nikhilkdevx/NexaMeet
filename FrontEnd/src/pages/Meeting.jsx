@@ -69,6 +69,10 @@ export default function Meeting(){
             await peerConnectionRef.current.setRemoteDescription(offer);
             
         }
+        const createAnswer = async (data) => {
+            const answer = data.answer;
+            await peerConnectionRef.current.setLocalDescription(answer);
+        };
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
         socket.on("user-left",handleUserLeft);
