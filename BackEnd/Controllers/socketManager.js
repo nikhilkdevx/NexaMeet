@@ -60,6 +60,8 @@ const initSocket = (server) => {
         });
 
         socket.on("send-offer",({meetingId,offer}) => {
+            console.log("Offer type:", data.offer?.type);
+            console.log("Offer SDP:", data.offer?.sdp);
             socket.to(meetingId).emit("send-offer",{offer});
         });
 
