@@ -26,8 +26,16 @@ export default function Meeting(){
             console.error("Camera access failed : ",err);
         }
     }
+    const peerConnection = () => {
+        if(peerConnectionRef.current === null){
+            peerConnectionRef.current = new RTCPeerConnection({});
+        } 
+        
+        return peerConnectionRef.current;
+        
+    }
     const handleConnection = async (stream) => {
-        peerConnectionRef.current = new RTCPeerConnection({});
+        peerConnection();
         const tracks = stream.getTracks();
         for(let i = 0;i<tracks.length;i++){
             peerConnectionRef.current.addTrack(tracks[i],stream);
@@ -55,8 +63,11 @@ export default function Meeting(){
             currentParticipants.filter((id) => id !== data.userId)
             );
         };
-        const handleReceiveOffer = (data) => {
-            console.log(data);
+        const handleReceiveOffer = async (data) => {
+            const offer = data.offer;
+            peerConnection();
+            await peerConnectionRef.current.setRemoteDescription(offer);
+            
         }
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
