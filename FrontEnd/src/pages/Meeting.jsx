@@ -40,10 +40,10 @@ export default function Meeting(){
         for(let i = 0;i<tracks.length;i++){
             peerConnectionRef.current.addTrack(tracks[i],stream);
         }
-        const offer = peerConnectionRef.current.createOffer();
+        const offer = await peerConnectionRef.current.createOffer();
         await peerConnectionRef.current.setLocalDescription(offer);
-        console.log("Offer type:", data.offer?.type);
-        console.log("Offer SDP:", data.offer?.sdp);
+        console.log("Offer type:", offer?.type);
+        console.log("Offer SDP:", offer?.sdp);
         socket.emit("send-offer",{meetingId,offer});
         
     }
