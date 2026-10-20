@@ -42,8 +42,6 @@ export default function Meeting(){
         }
         const offer = await peerConnectionRef.current.createOffer();
         await peerConnectionRef.current.setLocalDescription(offer);
-        console.log("Offer type:", offer?.type);
-        console.log("Offer SDP:", offer?.sdp);
         socket.emit("send-offer",{meetingId,offer});
         
     }
@@ -68,15 +66,15 @@ export default function Meeting(){
         const handleReceiveOffer = async (data) => {
             const offer = data.offer;
             const peer = peerConnection();
-            console.log("Received offer:", data.offer);
-            console.log("Offer type:", data.offer?.type);
-            console.log("Offer SDP:", data.offer?.sdp);
             await peer.setRemoteDescription(offer);
             const answer = await peer.createAnswer();
             await peer.setLocalDescription(answer);
             socket.emit("send-answer",{meetingId,answer});
         };
         const handleReceiveAnswer = async(data) => {
+            console.log("Received answer:", answer);
+            console.log("Answer type:", answer?.type);
+            console.log("Answer SDP:", answer?.sdp);
             const answer = data.answer;
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);

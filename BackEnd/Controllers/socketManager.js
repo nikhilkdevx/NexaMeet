@@ -60,12 +60,13 @@ const initSocket = (server) => {
         });
 
         socket.on("send-offer",({meetingId,offer}) => {
-            console.log("Offer type:", offer?.type);
-            console.log("Offer SDP:",  offer?.sdp);
             socket.to(meetingId).emit("send-offer",{offer});
         });
 
         socket.on("send-answer",({meetingId,answer}) => {
+            console.log("Received answer:", answer);
+            console.log("Answer type:", answer?.type);
+            console.log("Answer SDP:", answer?.sdp);
             socket.to(meetingId).emit("send-answer",{answer});
         });
 
