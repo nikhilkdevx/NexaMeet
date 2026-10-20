@@ -72,9 +72,6 @@ export default function Meeting(){
             socket.emit("send-answer",{meetingId,answer});
         };
         const handleReceiveAnswer = async(data) => {
-            console.log("Received answer:", answer);
-            console.log("Answer type:", answer?.type);
-            console.log("Answer SDP:", answer?.sdp);
             const answer = data.answer;
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);

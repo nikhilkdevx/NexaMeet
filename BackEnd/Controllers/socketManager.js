@@ -64,9 +64,6 @@ const initSocket = (server) => {
         });
 
         socket.on("send-answer",({meetingId,answer}) => {
-            console.log("Received answer:", answer);
-            console.log("Answer type:", answer?.type);
-            console.log("Answer SDP:", answer?.sdp);
             socket.to(meetingId).emit("send-answer",{answer});
         });
 
