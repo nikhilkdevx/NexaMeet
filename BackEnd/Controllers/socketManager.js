@@ -63,6 +63,10 @@ const initSocket = (server) => {
             socket.to(meetingId).emit("send-offer",{offer});
         });
 
+        socket.on("send-answer",({meetingId,answer}) => {
+            socket.to(meetingId).emit("send-answer",{answer});
+        });
+
     });
 
     return io;
