@@ -67,8 +67,8 @@ const initSocket = (server) => {
             socket.to(meetingId).emit("send-answer",{answer});
         });
 
-        socket.on("icecandidate",({meetingId,ev}) => {
-            socket.to(meetingId).emit("icecandidate",{ev});
+        socket.on("icecandidate",({meetingId,candidate}) => {
+            socket.to(meetingId).emit("icecandidate",{candidate});
         });
 
     });

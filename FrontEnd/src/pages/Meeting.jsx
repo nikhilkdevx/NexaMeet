@@ -41,8 +41,6 @@ export default function Meeting(){
             peerConnectionRef.current.addTrack(tracks[i],stream);
         }
         const offer = await peerConnectionRef.current.createOffer();
-        await peerConnectionRef.current.setLocalDescription(offer);
-        socket.emit("send-offer",{meetingId,offer});
         peerConnectionRef.addEventListener("icecandidate",(ev)=>{
             if(ev.candidate != null){
                 candidate = ev.candidate;
@@ -50,6 +48,10 @@ export default function Meeting(){
             }
             
         });
+        
+        await peerConnectionRef.current.setLocalDescription(offer);
+        socket.emit("send-offer",{meetingId,offer});
+        
         
     }
     useEffect(()=>{
