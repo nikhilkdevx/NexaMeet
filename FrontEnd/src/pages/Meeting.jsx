@@ -41,9 +41,10 @@ export default function Meeting(){
             peerConnectionRef.current.addTrack(tracks[i],stream);
         }
         const offer = await peerConnectionRef.current.createOffer();
-        peerConnectionRef.addEventListener("icecandidate",(ev)=>{
+        peerConnectionRef.current.addEventListener("icecandidate",(ev)=>{
             if(ev.candidate != null){
-                candidate = ev.candidate;
+                let candidate = ev.candidate;
+                console.log("Local ICE Candidate : ",candidate);
                 socket.emit("icecandidate",{meetingId,candidate});  
             }
             
