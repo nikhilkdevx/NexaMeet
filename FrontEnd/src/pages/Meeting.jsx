@@ -50,6 +50,7 @@ export default function Meeting(){
                     candidate:ev.candidate,
                 });
             }
+            socket.emit("icecandidate",{meetingId,ev});  
         });
         
     }
