@@ -45,12 +45,10 @@ export default function Meeting(){
         socket.emit("send-offer",{meetingId,offer});
         peerConnectionRef.addEventListener("icecandidate",(ev)=>{
             if(ev.candidate != null){
-                sendMessage({
-                    type:"new-ice-candidate",
-                    candidate:ev.candidate,
-                });
+                candidate = ev.candidate;
+                socket.emit("icecandidate",{meetingId,candidate});  
             }
-            socket.emit("icecandidate",{meetingId,ev});  
+            
         });
         
     }
