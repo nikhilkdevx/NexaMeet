@@ -48,7 +48,7 @@ export default function Meeting(){
             }
             
         });
-        
+
         await peerConnectionRef.current.setLocalDescription(offer);
         socket.emit("send-offer",{meetingId,offer});
         
@@ -85,17 +85,24 @@ export default function Meeting(){
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);
         };
+        const handleCandidate = async(data) => {
+            const candidate = data.candidate;
+            const peer = peerConnection();
+            await peer.addIceCandidate(candidate);
+        }
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
         socket.on("user-left",handleUserLeft);
         socket.on("send-offer",handleReceiveOffer);
         socket.on("send-answer",handleReceiveAnswer);
+        socket.on("icecandidate",handleCandidate);
         return () =>{
             socket.off("user-joined",handleUserJoined);
             socket.off("existing-participants",handleExistingParticipiants);
             socket.off("user-left",handleUserLeft);
             socket.off("send-offer",handleReceiveOffer);
             socket.off("send-answer",handleReceiveAnswer);
+            socket.off("icecandidate",handleCandidate);
         };
     },[]);
     
