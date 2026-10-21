@@ -29,6 +29,10 @@ export default function Meeting(){
     const peerConnection = () => {
         if(peerConnectionRef.current === null){
             peerConnectionRef.current = new RTCPeerConnection({});
+            peerConnectionRef.current.oniceconnectionstatechange = () => { 
+                console.log(peerConnectionRef.current.oniceconnectionstatechange);
+            };
+
         } 
         
         return peerConnectionRef.current;
@@ -88,6 +92,7 @@ export default function Meeting(){
         };
         const handleCandidate = async(data) => {
             const candidate = data.candidate;
+            console.log("Remote ICE candidate:", candidate);
             const peer = peerConnection();
             await peer.addIceCandidate(candidate);
         }

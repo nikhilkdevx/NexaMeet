@@ -68,6 +68,7 @@ const initSocket = (server) => {
         });
 
         socket.on("icecandidate",({meetingId,candidate}) => {
+            console.log("Received ICE candidate:", candidate);
             socket.to(meetingId).emit("icecandidate",{candidate});
         });
 
