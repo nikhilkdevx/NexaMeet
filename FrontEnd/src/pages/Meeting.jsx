@@ -29,8 +29,11 @@ export default function Meeting(){
     const peerConnection = () => {
         if(peerConnectionRef.current === null){
             peerConnectionRef.current = new RTCPeerConnection({});
-            peerConnectionRef.current.oniceconnectionstatechange = () => { 
-                console.log(peerConnectionRef.current.oniceconnectionstatechange);
+            peerConnectionRef.current.oniceconnectionstatechange = () => {
+            console.log(
+                "ICE state:",
+                peerConnectionRef.current.iceConnectionState
+            );
             };
 
         } 
