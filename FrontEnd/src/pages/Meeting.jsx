@@ -39,6 +39,7 @@ export default function Meeting(){
             peerConnectionRef.current.addEventListener("track",(e)=>{
                 console.log("Remote video element:", peerVideoRef.current);
                 console.log("Remote stream:", e.streams[0]);
+                peerVideoRef.current.play().catch(console.error);
                 peerVideoRef.current.srcObject = e.streams[0];
             });
 
