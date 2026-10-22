@@ -6,8 +6,8 @@ export default function Meeting(){
     const [participants,setParticipants] = useState([]);
     const [camera,setCamera] = useState(null);
     const videoRef = useRef(null);
-    const peerVideoRef = useRef(null);
     const peerConnectionRef = useRef(null);
+    const peerVideoRef = useRef(null);
     
     const handleJoinMeeting = () =>{ 
         console.log("Join-meeting",{meetingId});
@@ -37,14 +37,12 @@ export default function Meeting(){
             );
             };
             peerConnectionRef.current.addEventListener("track",(e)=>{
-                console.log("Remote video element:", peerVideoRef.current);
-                console.log("Remote stream:", e.streams[0]);
-                peerVideoRef.current.play().catch(console.error);
-                peerVideoRef.current.srcObject = e.streams[0];
+                const remoteStream = e.streams[0];
+                peerVideoRef.current.srcObject = remoteStream;
+                
             });
 
         } 
-        
         return peerConnectionRef.current;
         
     }
@@ -155,7 +153,10 @@ export default function Meeting(){
             <video ref = {peerVideoRef}
             autoPlay
             muted
-            playsInline />
+            playsInline
+            width = "300"
+            height = "200" />
+            
         </div>
         
     )
