@@ -36,6 +36,10 @@ export default function Meeting(){
                 peerConnectionRef.current.iceConnectionState
             );
             };
+            peerConnectionRef.current.addEventListener("track",(e)=>{
+                console.log(e.streams[0]);
+                peerVideoRef.current.srcObject = e.streams[0];
+            });
 
         } 
         
@@ -145,6 +149,10 @@ export default function Meeting(){
             <video ref={videoRef}
             autoPlay 
             muted 
+            playsInline />
+            <video ref = {peerVideoRef}
+            autoPlay
+            muted
             playsInline />
         </div>
         
