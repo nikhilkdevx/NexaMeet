@@ -58,9 +58,7 @@ export default function Meeting(){
         });
 
         await peerConnectionRef.current.setLocalDescription(offer);
-        socket.emit("send-offer",{meetingId,offer});
-        
-        
+        socket.emit("send-offer",{meetingId,offer});  
     }
     useEffect(()=>{
         const handleUserJoined = (data) => {
