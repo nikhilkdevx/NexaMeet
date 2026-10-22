@@ -6,6 +6,7 @@ export default function Meeting(){
     const [participants,setParticipants] = useState([]);
     const [camera,setCamera] = useState(null);
     const videoRef = useRef(null);
+    const peerVideoRef = useRef(null);
     const peerConnectionRef = useRef(null);
     
     const handleJoinMeeting = () =>{ 
