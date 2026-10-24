@@ -23,8 +23,6 @@ export default function Meeting(){
             video:true,
             audio:true
         });
-        console.log("Stream",stream);
-        console.log("Video tracks :",stream.getVideoTracks());
             setCamera(stream);
             handleConnection(stream);
         } catch (err){
@@ -35,10 +33,6 @@ export default function Meeting(){
         if(peerConnectionRef.current === null){
             peerConnectionRef.current = new RTCPeerConnection({});
             peerConnectionRef.current.oniceconnectionstatechange = () => {
-            console.log(
-                "ICE state:",
-                peerConnectionRef.current.iceConnectionState
-            );
             };
             peerConnectionRef.current.addEventListener("track",(e)=>{
                 const remoteStream = e.streams[0];
@@ -61,7 +55,6 @@ export default function Meeting(){
         peerConnectionRef.current.addEventListener("icecandidate",(ev)=>{
             if(ev.candidate != null){
                 let candidate = ev.candidate;
-                console.log("Local ICE Candidate : ",candidate);
                 socket.emit("icecandidate",{meetingId,candidate});  
             }
             
@@ -80,7 +73,6 @@ export default function Meeting(){
             });
         };
         const handleExistingParticipiants = (data) => {
-        console.log("Existing Participants",data.participants);
         setParticipants(data.participants);
         }
         const handleUserLeft = (data) => {
@@ -89,22 +81,17 @@ export default function Meeting(){
             );
         };
         const handleReceiveOffer = async (data) => {
-            console.log("Received offer payload:", data);
             const offer = data.offer;
             const peer = peerConnection();
             await peer.setRemoteDescription(offer);
-            console.log("Received offer; remote Desc set.");
             const answer = await peer.createAnswer();
             await peer.setLocalDescription(answer);
-
-            console.log("Meeting ID when sending answer:", meetingIdRef.current);
             socket.emit("send-answer",{ 
                 meetingId : meetingIdRef.current,
                 answer
             });
         };
         const handleReceiveAnswer = async (data) => {
-            console.log("handleReceiveAnswer fired", data);
             const answer = data.answer;
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);
@@ -112,7 +99,6 @@ export default function Meeting(){
         };
         const handleCandidate = async(data) => {
             const candidate = data.candidate;
-            console.log("Remote ICE candidate:", candidate);
             const peer = peerConnection();
             await peer.addIceCandidate(candidate);
         }
