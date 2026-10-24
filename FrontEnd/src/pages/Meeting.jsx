@@ -9,8 +9,12 @@ export default function Meeting(){
     const peerConnectionRef = useRef(null);
     const peerVideoRef = useRef(null);
     
+    const meetingIdRef = useRef("");
+    useEffect(()=>{
+        meetingIdRef.current = meetingId;
+    },[meetingId]);
+
     const handleJoinMeeting = () =>{ 
-        console.log("Join-meeting",{meetingId});
         socket.emit("join-meeting" ,{meetingId})
     };
     const handleCamera = async () => {
@@ -52,6 +56,7 @@ export default function Meeting(){
         for(let i = 0;i<tracks.length;i++){
             peerConnectionRef.current.addTrack(tracks[i],stream);
         }
+        
         const offer = await peerConnectionRef.current.createOffer();
         peerConnectionRef.current.addEventListener("icecandidate",(ev)=>{
             if(ev.candidate != null){
@@ -84,17 +89,26 @@ export default function Meeting(){
             );
         };
         const handleReceiveOffer = async (data) => {
+            console.log("Received offer payload:", data);
             const offer = data.offer;
             const peer = peerConnection();
             await peer.setRemoteDescription(offer);
+            console.log("Received offer; remote Desc set.");
             const answer = await peer.createAnswer();
             await peer.setLocalDescription(answer);
-            socket.emit("send-answer",{meetingId,answer});
+
+            console.log("Meeting ID when sending answer:", meetingIdRef.current);
+            socket.emit("send-answer",{ 
+                meetingId : meetingIdRef.current,
+                answer
+            });
         };
-        const handleReceiveAnswer = async(data) => {
+        const handleReceiveAnswer = async (data) => {
+            console.log("handleReceiveAnswer fired", data);
             const answer = data.answer;
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);
+            
         };
         const handleCandidate = async(data) => {
             const candidate = data.candidate;
@@ -153,9 +167,7 @@ export default function Meeting(){
             <video ref = {peerVideoRef}
             autoPlay
             muted
-            playsInline
-            width = "300"
-            height = "200" />
+            playsInline/>
             
         </div>
         
