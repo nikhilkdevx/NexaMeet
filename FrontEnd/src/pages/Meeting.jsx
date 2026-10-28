@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
 export default function Meeting(){
-    const [formData,setFormData] = useState("");
     const [meetingId,setMeetingId] = useState("");
     const [participants,setParticipants] = useState([]);
     const [camera,setCamera] = useState(null);
@@ -63,6 +62,7 @@ export default function Meeting(){
         await peerConnectionRef.current.setLocalDescription(offer);
         socket.emit("send-offer",{meetingId,offer});  
     }
+    
     useEffect(()=>{
         const handleUserJoined = (data) => {
             setParticipants((currentParticipants)=>{
