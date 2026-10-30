@@ -81,7 +81,7 @@ export default function Prejoin(){
             <section className="prejoin-action-section">
                 <h2>Ready to Join ?</h2>
                 <p>Your meeting is ready. Join when you're comfortable.</p>
-                <input type="text" placeholder="Enter Meeting ID" value = {meetingId}
+                <input className="meeting-id-input" type="text" placeholder="Enter Meeting ID" value = {meetingId}
                     onChange = {(e) => setMeetingId(e.target.value)}>
                 </input>
                 <button className="join-meeting-btn">Join Meeting</button>
