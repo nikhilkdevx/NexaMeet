@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
 import "./Meeting.css";
+import {
+    Mic,
+    MicOff,
+    Video,
+    VideoOff,
+    MonitorUp,
+    MessageCircle,
+    PhoneOff
+} from "lucide-react";
 export default function Meeting(){
     const [meetingId,setMeetingId] = useState("");
     const [participants,setParticipants] = useState([]);
@@ -155,7 +164,35 @@ export default function Meeting(){
             autoPlay
             muted
             playsInline/>
-            
+            <div className="meetControlIcons">
+            {navigator.mediaDevices.audio == true ? (
+                <button>
+                <Mic size={22} />
+            </button>
+            ) : (
+                <button>
+                    <MicOff size={22} />
+                </button> 
+            )}
+            <button>
+                <Video size={22} />
+            </button>
+            <button>
+                <Video size={22} />
+            </button>
+            <button>
+                <VideoOff size={22} />
+            </button>
+            <button>
+                <MonitorUp size={22} />
+            </button>
+            <button>
+                <MessageCircle size={22} />
+            </button>
+            <button>
+                <PhoneOff size={22} />
+            </button>
+            </div>
         </div>
         
     )
