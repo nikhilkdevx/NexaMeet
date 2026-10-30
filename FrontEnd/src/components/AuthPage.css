@@ -1,0 +1,39 @@
+.auth{
+    background-size: cover;
+    background-image: url("../assets/Background.png");
+    min-height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat; 
+    display: flex;
+    color: white;
+
+}
+
+.auth div{
+    border: 2px solid yellow;
+    flex: 1;
+}
+
+.auth .left{
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.auth h2{
+    font-size: 8rem;
+    
+}
+
+.auth input {
+    color: black;
+    background-color: white;
+}
+
+.auth button {
+    color: black;
+    background-color: white;
+}
