@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
 import "./Meeting.css";
+import {useParams } from "react-router-dom";
 import { Mic, MicOff, Video, VideoOff, MonitorUp, MessageCircle, PhoneOff } from "lucide-react";
 export default function Meeting(){
-    const [meetingId,setMeetingId] = useState("");
+    const {meetingId} = useParams();
     const [participants,setParticipants] = useState([]);
     const [camera,setCamera] = useState(null);
     const videoRef = useRef(null);
@@ -17,9 +18,10 @@ export default function Meeting(){
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
 
-    const handleJoinMeeting = () =>{ 
-        socket.emit("join-meeting" ,{meetingId})
-    };
+    useEffect(()=>{
+        socket.emit("join-meeting" ,{meetingId});
+    },[meetingId]);
+
     const handleCamera = async () => {
         try{
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -151,6 +153,56 @@ export default function Meeting(){
                     className="local-video"
                 />
             </div>
+
+            <div className="meeting-controls">
+
+                <button className="control-btn" title="Microphone">
+                    <Mic size={22} />
+                </button>
+
+                <button className="control-btn" title="Camera">
+                    <Video size={22} />
+                </button>
+
+                <button className="control-btn" title="Share Screen">
+                    <MonitorUp size={22} />
+                </button>
+
+                <button
+                    className="control-btn"
+                    title="Chat"
+                    onClick={() => setIsChatOpen(prev => !prev)}
+                >
+                    <MessageCircle size={22} />
+                </button>
+
+                <button className="control-btn leave-btn" title="Leave Meeting">
+                    <PhoneOff size={22} />
+                </button>
+
+            </div>
+            {isChatOpen && (
+                <aside className="chat-panel">
+                    <div className="chat-header">
+                        <h2>Meeting Chat</h2>
+                        <button onClick={() => setIsChatOpen(false)}>
+                            ×
+                        </button>
+                    </div>
+
+                    <div className="chat-messages">
+                        <p className="chat-empty">No messages yet. Start the conversation!</p>
+                    </div>
+
+                    <form className="chat-input-form">
+                        <input
+                            type="text"
+                            placeholder="Type a message..."
+                        />
+                        <button type="submit">Send</button>
+                    </form>
+                </aside>
+            )}
 
         </main>
 
