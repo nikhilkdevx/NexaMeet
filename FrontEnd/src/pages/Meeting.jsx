@@ -1,15 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
 import "./Meeting.css";
-import {
-    Mic,
-    MicOff,
-    Video,
-    VideoOff,
-    MonitorUp,
-    MessageCircle,
-    PhoneOff
-} from "lucide-react";
+import { Mic, MicOff, Video, VideoOff, MonitorUp, MessageCircle, PhoneOff } from "lucide-react";
 export default function Meeting(){
     const [meetingId,setMeetingId] = useState("");
     const [participants,setParticipants] = useState([]);
@@ -17,11 +9,13 @@ export default function Meeting(){
     const videoRef = useRef(null);
     const peerConnectionRef = useRef(null);
     const peerVideoRef = useRef(null);
-    
     const meetingIdRef = useRef("");
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
+
+    const [isChatOpen,setIsChatOpen] = useState(false);
+    const [isScreenSharing,setIsScreenSharing] = useState(false);
 
     const handleJoinMeeting = () =>{ 
         socket.emit("join-meeting" ,{meetingId})
@@ -135,65 +129,32 @@ export default function Meeting(){
     },[camera]);
     
     return (
-        <div>
-            <h1>Meeting Room</h1>
-            <input
-            type="text"
-            placeholder="Enter Meeting ID"
-            value = {meetingId}
-            onChange = {(e) => setMeetingId(e.target.value)}>
-            </input>
-            <button onClick= {handleJoinMeeting} >
-                Join Meeting
-            </button>
-            
-            <h2>Participants</h2>
-            {participants.length === 0 ? (
-                <p>No Existing Participants.</p>
-            ) : (
-            participants.map((id)=>(
-                <p key={id}>{id}</p>
-            ))
-            )}
-            <button onClick={handleCamera}>Start Camera</button>
-            <video ref={videoRef}
-            autoPlay 
-            muted 
-            playsInline />
-            <video ref = {peerVideoRef}
-            autoPlay
-            muted
-            playsInline/>
-            <div className="meetControlIcons">
-            {navigator.mediaDevices.audio == true ? (
-                <button>
-                <Mic size={22} />
-            </button>
-            ) : (
-                <button>
-                    <MicOff size={22} />
-                </button> 
-            )}
-            <button>
-                <Video size={22} />
-            </button>
-            <button>
-                <Video size={22} />
-            </button>
-            <button>
-                <VideoOff size={22} />
-            </button>
-            <button>
-                <MonitorUp size={22} />
-            </button>
-            <button>
-                <MessageCircle size={22} />
-            </button>
-            <button>
-                <PhoneOff size={22} />
-            </button>
+    <div className="meeting-room">
+
+        <main className="meeting-stage">
+
+            {/* Remote participant's video */}
+            <video
+                ref={peerVideoRef}
+                autoPlay
+                playsInline
+                className="remote-video"
+            />
+
+            {/* Your floating camera preview */}
+            <div className="local-video-container">
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    playsInline
+                    className="local-video"
+                />
             </div>
-        </div>
-        
-    )
+
+        </main>
+
+    </div>
+    );
+    
 }
