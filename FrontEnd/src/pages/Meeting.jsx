@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
+import "./Meeting.css";
 export default function Meeting(){
     const [meetingId,setMeetingId] = useState("");
     const [participants,setParticipants] = useState([]);
