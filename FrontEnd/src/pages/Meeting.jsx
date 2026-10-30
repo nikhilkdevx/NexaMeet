@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import socket from "../socket";
-import "./Meeting.css";
+import "../components/meeting/Meeting.css";
 import {
     Mic,
     MicOff,
