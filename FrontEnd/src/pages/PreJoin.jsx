@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import PreJoinHeader from "../components/prejoin/PreJoinHeader";
 import "./prejoin.css";
 import {Mic,Video,Volume2,VolumeX,VideoOff,MicOff } from "lucide-react";
+import {useNavigate} from "react-router-dom";
 
 export default function Prejoin(){
     const [meetingId,setMeetingId] = useState("");
@@ -10,7 +11,8 @@ export default function Prejoin(){
     const [isSpeakerOn,setIsSpeakerOn] = useState(true);
     const videoRef = useRef(null);
     const streamRef = useRef(null);
-    
+    const navigate = useNavigate();
+
     const startCamera = async() => {
         try{
             streamRef.current = await navigator.mediaDevices.getUserMedia({
@@ -53,6 +55,16 @@ export default function Prejoin(){
     const toggleSpeaker = () => {
         setIsSpeakerOn((prev) => !prev);
     };
+
+    const handleJoinMeeting = (e) => {
+        e.preventDefault();
+        if(e == ""){
+            alert("Please Enter a Meeting Id");
+            return;
+        }
+        navigate(`/meeting/${meetingId.trim()}`);
+    }
+
     return (
         <div className="prejoin-page">
         <PreJoinHeader/>
@@ -81,11 +93,13 @@ export default function Prejoin(){
             <section className="prejoin-action-section">
                 <h2>Ready to Join ?</h2>
                 <p>Your meeting is ready. Join when you're comfortable.</p>
-                <input className="meeting-id-input" type="text" placeholder="Enter Meeting ID" value = {meetingId}
-                    onChange = {(e) => setMeetingId(e.target.value)}>
-                </input>
-                <button className="join-meeting-btn">Join Meeting</button>
-                <button type="button" className="go-back-btn">Go Back</button>
+                <form onSubmit = {handleJoinMeeting}>
+                    <input className="meeting-id-input" type="text" placeholder="Enter Meeting ID" value = {meetingId}
+                        onChange = {(e) => setMeetingId(e.target.value)}>
+                    </input>
+                    <button type="submit" className="join-meeting-btn">Join Meeting</button>
+                </form>
+                <button type="button" className="go-back-btn" onClick={()=> navigate("/")}>Go Back</button>
             </section>
         </main>
         </div>
