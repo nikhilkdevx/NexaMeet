@@ -1,8 +1,61 @@
+:root {
+  /* Backgrounds */
+  --bg-primary: #0B1020;
+  --bg-secondary: #111827;
+  --bg-card: #1F2937;
+
+  /* Brand */
+  --accent-primary: #7C5CFC;
+  --accent-hover: #6B4CE6;
+
+  /* Text */
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+
+  /* Status */
+  --success: #22C55E;
+  --danger: #EF4444;
+
+  /* Borders */
+  --border-color: #293347;
+
+  /* Typography */
+  --font-primary: "Inter", sans-serif;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing:border-box;
   
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 .hero{
