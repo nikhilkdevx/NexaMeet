@@ -10,7 +10,7 @@ export default function App() {
       <Routes>
         <Route path="/" element= {<Home />}/>
         <Route path="/auth" element={<Auth/>} />
-        <Route path="/meeting/:meetigId" element={<PreJoin />} />
+        <Route path="/meeting" element={<PreJoin />} />
         <Route path= "/meeting/:meetingId/live" element = {<Meeting/>} />
       </Routes>
     </BrowserRouter>

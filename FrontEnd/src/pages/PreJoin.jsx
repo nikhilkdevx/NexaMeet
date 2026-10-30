@@ -58,11 +58,11 @@ export default function Prejoin(){
 
     const handleJoinMeeting = (e) => {
         e.preventDefault();
-        if(e == ""){
+        if(!meetingId.trim()){
             alert("Please Enter a Meeting Id");
             return;
         }
-        navigate(`/meeting/${meetingId.trim()}`);
+        navigate(`/meeting/${meetingId.trim()}/live`);
     }
 
     return (
@@ -93,7 +93,7 @@ export default function Prejoin(){
             <section className="prejoin-action-section">
                 <h2>Ready to Join ?</h2>
                 <p>Your meeting is ready. Join when you're comfortable.</p>
-                <form onSubmit = {handleJoinMeeting}>
+                <form className = "meeting-id-form" onSubmit = {handleJoinMeeting}>
                     <input className="meeting-id-input" type="text" placeholder="Enter Meeting ID" value = {meetingId}
                         onChange = {(e) => setMeetingId(e.target.value)}>
                     </input>

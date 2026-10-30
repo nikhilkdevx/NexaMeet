@@ -136,6 +136,7 @@
   width: 100%;
   max-width: 280px;
   padding: 14px 16px;
+  margin-bottom: 20px;
 
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -156,3 +157,10 @@
   border-color: var(--accent-primary);
   box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.15);
 }
+
+/* .meeting-id-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+} */
