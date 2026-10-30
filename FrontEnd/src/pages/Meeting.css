@@ -87,7 +87,8 @@
     top: 0;
     right: 0;
     width: 340px;
-    height: calc(100% - 90px);
+    height: calc(100% - 100px);
+    bottom: 100px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -95,6 +96,7 @@
     flex-direction: column;
     z-index: 5;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .chat-header {
