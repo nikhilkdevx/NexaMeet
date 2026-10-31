@@ -9,7 +9,7 @@ module.exports.saveMessage = async(payload, senderId) => {
     if(result.error){
         throw new ExpressError(StatusCodes.BAD_REQUEST,result.error.message);
     }
-    const {meetingId , content } = payload;
+    const {meetingId , content } = result.value;
     const meeting = await Meeting.findById(meetingId);
     if(!meeting){
         throw new ExpressError(StatusCodes.NOT_FOUND,"Meeting not Found");
