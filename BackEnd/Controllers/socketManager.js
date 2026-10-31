@@ -1,6 +1,9 @@
 const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
-const { saveMessage } = require("./messageController");
+const { saveMessage, saveMessage } = require("./messageController");
+const ExpressErrror = require("../utilis/ExpressError");
+const {StatusCodes} = require("http-status-codes");
+
 const initSocket = (server) => {
     const io = new Server(server,{
         cors : {
@@ -74,7 +77,24 @@ const initSocket = (server) => {
             socket.to(meetingId).emit("icecandidate",{candidate});
         });
 
-        socket.on("send-message",)
+        socket.on("send-message",async (payload)=>{
+           try {
+            const {meetingId, content} = payload;
+            if(!socket.meetingId || meetingId !== socket.meetingId){
+                throw new ExpressErrror("You are not in this meeting");
+            }
+            const savedMessage = await saveMessage({meetingId,content},
+                socket.user.userId
+            );
+            io.to(socket.meetingId).emit("new-message",savedMessage);
+           } catch (err) {
+            socket.emit("message-error",{
+                message : err.message
+            });
+           }
+        });
+
+        socket.on("new-message")
 
     });
 
