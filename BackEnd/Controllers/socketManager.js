@@ -94,8 +94,6 @@ const initSocket = (server) => {
            }
         });
 
-        socket.on("new-message")
-
     });
 
     return io;

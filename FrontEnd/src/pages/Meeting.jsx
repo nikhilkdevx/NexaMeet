@@ -12,6 +12,7 @@ export default function Meeting(){
     const peerVideoRef = useRef(null);
     const meetingIdRef = useRef("");
     const [message,setMessage] = useState([]);
+    const [messageInput,setMessageInput] = useState("");
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
