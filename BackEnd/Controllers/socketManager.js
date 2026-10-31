@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
+const { saveMessage } = require("./messageController");
 const initSocket = (server) => {
     const io = new Server(server,{
         cors : {
@@ -72,6 +73,8 @@ const initSocket = (server) => {
             console.log("Received ICE candidate:", candidate);
             socket.to(meetingId).emit("icecandidate",{candidate});
         });
+
+        socket.on("send-message",)
 
     });
 
