@@ -11,6 +11,7 @@ export default function Meeting(){
     const peerConnectionRef = useRef(null);
     const peerVideoRef = useRef(null);
     const meetingIdRef = useRef("");
+    const [message,setMessage] = useState([]);
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
@@ -108,12 +109,17 @@ export default function Meeting(){
             const peer = peerConnection();
             await peer.addIceCandidate(candidate);
         }
+        const handleNewMessage = (message) => {
+            setMessage((prev) => [...prev,message]);
+        };
+
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
         socket.on("user-left",handleUserLeft);
         socket.on("send-offer",handleReceiveOffer);
         socket.on("send-answer",handleReceiveAnswer);
         socket.on("icecandidate",handleCandidate);
+        socket.on("new-message",handleNewMessage);
         return () =>{
             socket.off("user-joined",handleUserJoined);
             socket.off("existing-participants",handleExistingParticipiants);
@@ -121,6 +127,7 @@ export default function Meeting(){
             socket.off("send-offer",handleReceiveOffer);
             socket.off("send-answer",handleReceiveAnswer);
             socket.off("icecandidate",handleCandidate);
+            socket.off("new-message",handleNewMessage);
         };
     },[]);
     
