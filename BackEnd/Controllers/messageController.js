@@ -21,4 +21,10 @@ module.exports.saveMessage = async(payload, senderId) => {
             "You are not a Participant in this meeting"
         );
     }
+    const savedMessage = await Message.create({
+        meetingId,
+        sender : senderId,
+        content
+    });
+    return savedMessage;
 }

@@ -217,7 +217,7 @@ export default function Meeting(){
                             messages.map((message)=> (
                                 <div key={message._id} className="chat-message"> 
                                 {message.content}
-                                 </div>
+                                </div>
                             ))
                         )}
                         

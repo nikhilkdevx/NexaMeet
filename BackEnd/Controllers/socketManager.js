@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
-const { saveMessage, saveMessage } = require("./messageController");
+const { saveMessage } = require("./messageController");
 const ExpressErrror = require("../utilis/ExpressError");
 const {StatusCodes} = require("http-status-codes");
 
