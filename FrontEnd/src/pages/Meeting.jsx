@@ -113,6 +113,16 @@ export default function Meeting(){
         const handleNewMessage = (message) => {
             setMessage((prev) => [...prev,message]);
         };
+        const handleSendMessage = (e) => {
+            e.preventDefault();
+            if(!e.message.trim()){
+                return;
+            }
+            socket.emit("send-message",{
+                meetingId,
+                content : messaageInput.trim()
+            });
+        }
 
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
@@ -199,13 +209,24 @@ export default function Meeting(){
                     </div>
 
                     <div className="chat-messages">
-                        <p className="chat-empty">No messages yet. Start the conversation!</p>
+                        {messages.length === 0 ? (
+                            <p className="chat-empty">No messages yet. Start the conversation!</p>
+                        ) : (
+                            messages.map((message)=> (
+                                <div key={message._id} className="chat-message"> 
+                                {message.content}
+                                 </div>
+                            ))
+                        )}
+                        
                     </div>
 
                     <form className="chat-input-form">
                         <input
                             type="text"
                             placeholder="Type a message..."
+                            value={messageInput}
+                            onChange={(e)=>setMessageInput(e.target.value)}
                         />
                         <button type="submit">Send</button>
                     </form>
