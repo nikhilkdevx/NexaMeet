@@ -11,7 +11,7 @@ export default function Meeting(){
     const peerConnectionRef = useRef(null);
     const peerVideoRef = useRef(null);
     const meetingIdRef = useRef("");
-    const [message,setMessage] = useState([]);
+    const [messages,setMessages] = useState([]);
     const [messageInput,setMessageInput] = useState("");
     useEffect(()=>{
         meetingIdRef.current = meetingId;
@@ -19,10 +19,6 @@ export default function Meeting(){
 
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
-
-    useEffect(()=>{
-        socket.emit("join-meeting" ,{meetingId});
-    },[meetingId]);
 
     const handleCamera = async () => {
         try{
@@ -70,6 +66,18 @@ export default function Meeting(){
         await peerConnectionRef.current.setLocalDescription(offer);
         socket.emit("send-offer",{meetingId,offer});  
     }
+
+    const handleSendMessage = (e) => {
+        e.preventDefault();
+        if(!messageInput.trim()){
+            return;
+        }
+        socket.emit("send-message",{
+            meetingId,
+                content : messaageInput.trim()
+        });
+        setMessageInput("");
+    }
     
     useEffect(()=>{
         const handleUserJoined = (data) => {
@@ -113,16 +121,6 @@ export default function Meeting(){
         const handleNewMessage = (message) => {
             setMessage((prev) => [...prev,message]);
         };
-        const handleSendMessage = (e) => {
-            e.preventDefault();
-            if(!e.message.trim()){
-                return;
-            }
-            socket.emit("send-message",{
-                meetingId,
-                content : messaageInput.trim()
-            });
-        }
 
         socket.on("user-joined",handleUserJoined);
         socket.on("existing-participants",handleExistingParticipiants);
@@ -141,6 +139,10 @@ export default function Meeting(){
             socket.off("new-message",handleNewMessage);
         };
     },[]);
+
+    useEffect(()=>{
+        socket.emit("join-meeting" ,{meetingId});
+    },[meetingId]);
     
     useEffect(()=>{
         if(videoRef.current && camera){
@@ -221,7 +223,7 @@ export default function Meeting(){
                         
                     </div>
 
-                    <form className="chat-input-form">
+                    <form className="chat-input-form" onSubmit={handleSendMessage}>
                         <input
                             type="text"
                             placeholder="Type a message..."
