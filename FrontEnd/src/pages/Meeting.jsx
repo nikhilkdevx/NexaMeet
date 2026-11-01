@@ -74,7 +74,7 @@ export default function Meeting(){
         }
         socket.emit("send-message",{
             meetingId,
-                content : messaageInput.trim()
+            content: messageInput.trim()
         });
         setMessageInput("");
     }
@@ -119,7 +119,7 @@ export default function Meeting(){
             await peer.addIceCandidate(candidate);
         }
         const handleNewMessage = (message) => {
-            setMessage((prev) => [...prev,message]);
+            setMessages((prev) => [...prev,message]);
         };
 
         socket.on("user-joined",handleUserJoined);
