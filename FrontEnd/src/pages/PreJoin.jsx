@@ -65,6 +65,10 @@ export default function Prejoin(){
         navigate(`/meeting/${meetingId.trim()}/live`);
     }
 
+    const handleCreateMeeting = () => {
+
+    }
+
     return (
         <div className="prejoin-page">
         <PreJoinHeader/>
@@ -91,8 +95,11 @@ export default function Prejoin(){
                 </div>
             </section>
             <section className="prejoin-action-section">
-                <h2>Ready to Join ?</h2>
-                <p>Your meeting is ready. Join when you're comfortable.</p>
+                <h2>Ready to Connect ?</h2>
+                <p>Start a new meeting or join an existing one.</p>
+                <button  className="create-meeting-btn" onClick={handleCreateMeeting}>
+                    <Video size={21} /> Create Meeting
+                </button>
                 <form className = "meeting-id-form" onSubmit = {handleJoinMeeting}>
                     <input className="meeting-id-input" type="text" placeholder="Enter Meeting ID" value = {meetingId}
                         onChange = {(e) => setMeetingId(e.target.value)}>
