@@ -4,6 +4,7 @@ import Auth from "./pages/Authentication";
 import PreJoin from "./pages/PreJoin";
 import socket from "./socket";
 import Meeting from "./pages/Meeting";
+
 export default function App() {
   return (
     <BrowserRouter>
