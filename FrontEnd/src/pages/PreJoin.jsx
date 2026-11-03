@@ -65,8 +65,17 @@ export default function Prejoin(){
         navigate(`/meeting/${meetingId.trim()}/live`);
     }
 
-    const handleCreateMeeting = () => {
-
+    const handleCreateMeeting = async () => {
+        const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/api/meetings/create`,
+            {
+                method:"POST",
+                headers:{
+                    "content-Type":"application/json",
+                    Authorization: `Bearer${token}`
+                }
+            }
+        )
     }
 
     return (
