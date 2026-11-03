@@ -16,6 +16,7 @@ export default function Meeting(){
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
+    const currentUserId = localStorage.getItem("userId");
 
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
@@ -214,11 +215,21 @@ export default function Meeting(){
                         {messages.length === 0 ? (
                             <p className="chat-empty">No messages yet. Start the conversation!</p>
                         ) : (
-                            messages.map((message)=> (
-                                <div key={message._id} className="chat-message"> 
-                                {message.content}
-                                </div>
-                            ))
+                            messages.map((message) => {
+                                const isMyMessage = message.sender._id === currentUserId;
+                                return (
+                                    <div
+                                        key={message._id}
+                                        className={`chat-message ${isMyMessage ? "my-message" : "other-message"}`}
+                                    >
+                                        <span className="message-sender">
+                                            {isMyMessage ? "You" : message.sender.name}
+                                        </span>
+
+                                        <p>{message.content}</p>
+                                    </div>
+                                );
+                            })
                         )}
                         
                     </div>

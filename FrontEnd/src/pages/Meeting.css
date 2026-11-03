@@ -158,3 +158,54 @@
     border-radius: var(--radius-md);
     cursor: pointer;
 }
+
+/* Chat message layout */
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 14px;
+    overflow-y: auto;
+}
+
+/* Common message style */
+.chat-message {
+    max-width: 80%;
+    width: fit-content;
+    padding: 10px 14px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-wrap: anywhere;
+}
+
+/* Your messages */
+.my-message {
+    align-self: flex-end;
+    background: var(--accent-primary);
+    color: white;
+    border-bottom-right-radius: 3px;
+}
+
+/* Other participant's messages */
+.other-message {
+    align-self: flex-start;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-bottom-left-radius: 3px;
+}
+
+/* Sender name */
+.message-sender {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Message text */
+.chat-message p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}

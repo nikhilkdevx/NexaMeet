@@ -86,6 +86,7 @@ const initSocket = (server) => {
             const savedMessage = await saveMessage({meetingId,content},
                 socket.user.userId
             );
+            console.log(savedMessage);
             io.to(socket.meetingId).emit("new-message",savedMessage);
            } catch (err) {
             socket.emit("message-error",{
