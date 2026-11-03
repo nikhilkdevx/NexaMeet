@@ -9,5 +9,4 @@ module.exports.create = async (req,res)=> {
     });
     console.log(newMeeting);
     res.status(StatusCodes.CREATED).json(newMeeting);
-    return newMeeting.user_id;
 }

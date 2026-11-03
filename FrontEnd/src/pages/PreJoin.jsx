@@ -66,6 +66,9 @@ export default function Prejoin(){
     }
 
     const handleCreateMeeting = async () => {
+        console.log("Browser check:", typeof window);
+console.log("Storage check:", typeof window.localStorage);
+        const token = localStroage.getItem("token");
         const response = await fetch(
             `${import.meta.env.VITE_BACKEND_URL}/api/meetings/create`,
             {
@@ -76,7 +79,8 @@ export default function Prejoin(){
                 }
             }
         )
-        console.log(response);
+        const data = await response.json();
+        console.log(data);
         // navigate(`/meeting/${}`)
     }
 
