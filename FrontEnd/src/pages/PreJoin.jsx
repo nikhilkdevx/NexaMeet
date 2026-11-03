@@ -78,8 +78,8 @@ export default function Prejoin(){
             }
         )
         const data = await response.json();
-        console.log(data);
-        // navigate(`/meeting/${}`)
+        const Id = data._id; 
+        navigate(`/meeting/${Id}/live`);
     }
 
     return (
