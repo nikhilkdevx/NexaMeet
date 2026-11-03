@@ -76,6 +76,8 @@ export default function Prejoin(){
                 }
             }
         )
+        console.log(response);
+        // navigate(`/meeting/${}`)
     }
 
     return (

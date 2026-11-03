@@ -40,6 +40,8 @@ app.get("/",(req,res)=>{
 const authRoutes = require("./routes/authRoutes");
 app.use("/auth",authRoutes);
 
+const meetRoutes = require("./routes/meetRoutes");
+app.use("/meeting",meetRoutes);
 
 // ERROR HANDLING LOGIC
 app.use((err,req,res,next)=>{
