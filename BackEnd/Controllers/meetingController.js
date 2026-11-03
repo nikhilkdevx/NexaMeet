@@ -5,7 +5,7 @@ const { StatusCodes } = require("http-status-codes");
 module.exports.create = async (req,res)=> {
     const newMeeting = await Meeting.create({
         host : req.user.userId,
-        participants: [host]
+        participants: [req.user.userId]
     });
     console.log(newMeeting);
     res.status(StatusCodes.CREATED).json(newMeeting);

@@ -65,17 +65,15 @@ export default function Prejoin(){
         navigate(`/meeting/${meetingId.trim()}/live`);
     }
 
-    const handleCreateMeeting = async () => {
-        console.log("Browser check:", typeof window);
-console.log("Storage check:", typeof window.localStorage);
-        const token = localStroage.getItem("token");
+    const handleCreateMeeting = async () => { 
+        const token =  window.localStorage.getItem("token");
         const response = await fetch(
             `${import.meta.env.VITE_BACKEND_URL}/api/meetings/create`,
             {
                 method:"POST",
                 headers:{
                     "content-Type":"application/json",
-                    Authorization: `Bearer${token}`
+                    Authorization: `Bearer ${token}`
                 }
             }
         )
@@ -112,7 +110,7 @@ console.log("Storage check:", typeof window.localStorage);
             <section className="prejoin-action-section">
                 <h2>Ready to Connect ?</h2>
                 <p>Start a new meeting or join an existing one.</p>
-                <button  className="create-meeting-btn" onClick={handleCreateMeeting}>
+                <button  className="create-meeting-btn" type="button" onClick={handleCreateMeeting}>
                     <Video size={21} /> Create Meeting
                 </button>
                 <form className = "meeting-id-form" onSubmit = {handleJoinMeeting}>
