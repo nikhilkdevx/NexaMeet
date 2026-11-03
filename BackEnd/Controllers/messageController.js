@@ -26,5 +26,7 @@ module.exports.saveMessage = async(payload, senderId) => {
         sender : senderId,
         content
     });
+    const populatedMessage = await Message.findById(savedMessage._id)
+    .populate("sender","name");
     return savedMessage;
 }
