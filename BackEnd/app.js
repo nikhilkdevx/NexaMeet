@@ -41,7 +41,7 @@ const authRoutes = require("./routes/authRoutes");
 app.use("/auth",authRoutes);
 
 const meetRoutes = require("./routes/meetRoutes");
-app.use("/meeting",meetRoutes);
+app.use("/api/meetings",meetRoutes);
 
 // ERROR HANDLING LOGIC
 app.use((err,req,res,next)=>{
