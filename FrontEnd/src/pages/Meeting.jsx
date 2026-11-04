@@ -91,6 +91,7 @@ export default function Meeting(){
     }
 
     const handleScreenShare = async () => {
+        
         const screenStream = await navigator.mediaDevices.getDisplayMedia({
             video: true
         });
@@ -243,7 +244,7 @@ export default function Meeting(){
                     onClick ={handleScreenShare} >
                     <MonitorUp size={22} />
                 </button>
-                ) }
+                )}
 
                 <button
                     className="control-btn"
