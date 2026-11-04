@@ -21,6 +21,7 @@ export default function Meeting(){
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
     const cameraStreamRef = useRef(null);
+    
     useEffect(()=>{
         handleCamera();
     },[]);
@@ -33,6 +34,7 @@ export default function Meeting(){
         });
             cameraStreamRef.current = stream;
             setCamera(stream);
+            socket.emit("join-meeting",{meetingId});
         } catch (err){
             console.error("Camera access failed : ",err);
         }
@@ -41,6 +43,15 @@ export default function Meeting(){
     const peerConnection = () => {
         if(peerConnectionRef.current === null){
             peerConnectionRef.current = new RTCPeerConnection({});
+            peerConnectionRef.current.addEventListener("icecandidate",(ev)=>{
+            if(ev.candidate != null){
+                let candidate = ev.candidate;
+                socket.emit("icecandidate",{
+                    meetingId : meetingIdRef.current,
+                    candidate : ev.candidate
+                });  
+            }
+        });
             peerConnectionRef.current.oniceconnectionstatechange = () => {
             };
             peerConnectionRef.current.addEventListener("track",(e)=>{
@@ -54,6 +65,7 @@ export default function Meeting(){
         
     }
     const handleConnection = async (stream) => {
+        console.log("CREATING OFFER");
         peerConnection();
         const tracks = stream.getTracks();
         for(let i = 0;i<tracks.length;i++){
@@ -61,14 +73,6 @@ export default function Meeting(){
         }
         
         const offer = await peerConnectionRef.current.createOffer();
-        peerConnectionRef.current.addEventListener("icecandidate",(ev)=>{
-            if(ev.candidate != null){
-                let candidate = ev.candidate;
-                socket.emit("icecandidate",{meetingId,candidate});  
-            }
-            
-        });
-
         await peerConnectionRef.current.setLocalDescription(offer);
         socket.emit("send-offer",{meetingId,offer});  
     }
@@ -84,17 +88,19 @@ export default function Meeting(){
         });
         setMessageInput("");
     }
-
-    
     
     useEffect(()=>{
-        const handleUserJoined = (data) => {
+        const handleUserJoined = async(data) => {
+            console.log("USER JOINED:", data.userId);
             setParticipants((currentParticipants)=>{
             if(currentParticipants.includes(data.userId)){
                 return currentParticipants;
             }
             return [...currentParticipants,data.userId];
             });
+            const stream = cameraStreamRef.current;
+            if(!stream || peerConnectionRef.current) return;
+            await handleConnection(stream);
         };
         const handleExistingParticipiants = (data) => {
         setParticipants(data.participants);
@@ -147,10 +153,6 @@ export default function Meeting(){
             socket.off("new-message",handleNewMessage);
         };
     },[]);
-
-    useEffect(()=>{
-        socket.emit("join-meeting" ,{meetingId});
-    },[meetingId]);
     
     useEffect(()=>{
         if(videoRef.current && camera){
