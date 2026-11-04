@@ -96,7 +96,14 @@ export default function Meeting(){
         const senders = peerConnectionRef.current.getSenders();
         const videoSender = senders.find((sender)=> 
             sender.track?.find === "video");
-        RTCRtpSender.replaceTrack(videoSender);
+        videoSender.replaceTrack(displayMediaRef.current);
+        const MediaStreamTrack = cameraStreamRef.current.getSenders();
+        const MediaTrack = MediaStreamTrack.find((media)=>
+            media.track?.find === "video");
+        displayMediaRef.current.onended = async () => {
+            videoSender.replaceTrack(MediaTrack);
+            displayMediaRef.current = null;
+        }
     }
     
     useEffect(()=>{
