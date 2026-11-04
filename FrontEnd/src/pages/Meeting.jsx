@@ -91,20 +91,31 @@ export default function Meeting(){
     }
 
     const handleScreenShare = async () => {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({video : true});
-        displayMediaRef.current = screenStream.getVideoTracks()[0];
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+            video: true
+        });
+
+        const screenTrack = screenStream.getVideoTracks()[0];
+        displayMediaRef.current = screenTrack;
+
         const senders = peerConnectionRef.current.getSenders();
-        const videoSender = senders.find((sender)=> 
-            sender.track?.find === "video");
-        videoSender.replaceTrack(displayMediaRef.current);
-        const MediaStreamTrack = cameraStreamRef.current.getSenders();
-        const MediaTrack = MediaStreamTrack.find((media)=>
-            media.track?.find === "video");
+
+        const videoSender = senders.find(
+            (sender) => sender.track?.kind === "video"
+        );
+
         displayMediaRef.current.onended = async () => {
-            videoSender.replaceTrack(MediaTrack);
+            const cameraTrack = cameraStreamRef.current.getVideoTracks()[0];
+
+            await videoSender.replaceTrack(cameraTrack);
+
+            screenStream.getTracks().forEach((track) => track.stop());
+
             displayMediaRef.current = null;
-        }
-    }
+        };
+
+        await videoSender.replaceTrack(screenTrack);
+    };
     
     useEffect(()=>{
         const handleUserJoined = async(data) => {
