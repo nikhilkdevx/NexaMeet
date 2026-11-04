@@ -91,9 +91,12 @@ export default function Meeting(){
     }
 
     const handleScreenShare = async () => {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia();
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({video : true});
         displayMediaRef.current = screenStream.getVideoTracks()[0];
-        RTCRtpSender.replaceTrack(displayMediaRef.current);
+        const senders = peerConnectionRef.current.getSenders();
+        const videoSender = senders.find((sender)=> 
+            sender.track?.find === "video");
+        RTCRtpSender.replaceTrack(videoSender);
     }
     
     useEffect(()=>{
