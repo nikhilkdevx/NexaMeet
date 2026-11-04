@@ -111,8 +111,15 @@ export default function Meeting(){
             );
         };
         const handleReceiveOffer = async (data) => {
+            console.log("OFFER RECEIVED");
             const offer = data.offer;
             const peer = peerConnection();
+            const stream = cameraStreamRef.current;
+            if (stream) {
+                stream.getTracks().forEach((track) => {
+                    peer.addTrack(track, stream);
+                });
+            }
             await peer.setRemoteDescription(offer);
             const answer = await peer.createAnswer();
             await peer.setLocalDescription(answer);
@@ -122,12 +129,14 @@ export default function Meeting(){
             });
         };
         const handleReceiveAnswer = async (data) => {
+            console.log("ANSWER RECEIVED");
             const answer = data.answer;
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);
             
         };
         const handleCandidate = async(data) => {
+            console.log("ICE CANDIDATE RECEIVED");
             const candidate = data.candidate;
             const peer = peerConnection();
             await peer.addIceCandidate(candidate);
