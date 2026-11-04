@@ -21,7 +21,8 @@ export default function Meeting(){
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
     const cameraStreamRef = useRef(null);
-    
+    const displayMediaRef = useRef(null);
+
     useEffect(()=>{
         handleCamera();
     },[]);
@@ -87,6 +88,12 @@ export default function Meeting(){
             content: messageInput.trim()
         });
         setMessageInput("");
+    }
+
+    const handleScreenShare = async () => {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia();
+        displayMediaRef.current = screenStream.getVideoTracks()[0];
+        RTCRtpSender.replaceTrack(displayMediaRef.current);
     }
     
     useEffect(()=>{
@@ -203,7 +210,9 @@ export default function Meeting(){
                     <Video size={22} />
                 </button>
 
-                <button className="control-btn" title="Share Screen">
+                <button className="control-btn"
+                    title="Share Screen"
+                    onClick ={handleScreenShare} >
                     <MonitorUp size={22} />
                 </button>
 
