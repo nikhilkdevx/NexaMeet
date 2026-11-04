@@ -20,6 +20,10 @@ export default function Meeting(){
 
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
+    const cameraStreamRef = useRef(null);
+    useEffect(()=>{
+        handleCamera();
+    },[]);
 
     const handleCamera = async () => {
         try{
@@ -27,12 +31,13 @@ export default function Meeting(){
             video:true,
             audio:true
         });
+            cameraStreamRef.current = stream;
             setCamera(stream);
-            handleConnection(stream);
         } catch (err){
             console.error("Camera access failed : ",err);
         }
     }
+    
     const peerConnection = () => {
         if(peerConnectionRef.current === null){
             peerConnectionRef.current = new RTCPeerConnection({});
@@ -79,6 +84,8 @@ export default function Meeting(){
         });
         setMessageInput("");
     }
+
+    
     
     useEffect(()=>{
         const handleUserJoined = (data) => {
