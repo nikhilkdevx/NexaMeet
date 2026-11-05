@@ -128,6 +128,14 @@ export default function Meeting(){
         }
     }
 
+    const toggleCamera = () => {
+        const videoTrack = cameraStreamRef.current?.getVideoTracks()[0];
+        if(videoTrack){
+            videoTrack.enabled = !videoTrack.enabled;
+            setIscameraOn(videoTrack.enabled);
+        }
+    }
+
     
 
     
