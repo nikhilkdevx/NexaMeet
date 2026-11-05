@@ -92,13 +92,14 @@ export default function Meeting(){
     }
 
     const handleScreenShare = async () => {
-        
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+    let screenStream;
+
+    try {
+        screenStream = await navigator.mediaDevices.getDisplayMedia({
             video: true
         });
 
         const screenTrack = screenStream.getVideoTracks()[0];
-        displayMediaRef.current = screenTrack;
 
         const senders = peerConnectionRef.current.getSenders();
 
@@ -106,17 +107,30 @@ export default function Meeting(){
             (sender) => sender.track?.kind === "video"
         );
 
-        displayMediaRef.current.onended = async () => {
+        if (!videoSender) {
+            screenStream.getTracks().forEach(track => track.stop());
+            return;
+        }
+
+        displayMediaRef.current = screenTrack;
+
+        await videoSender.replaceTrack(screenTrack);
+        setIsScreenSharing(true);
+
+        screenTrack.onended = async () => {
             const cameraTrack = cameraStreamRef.current.getVideoTracks()[0];
 
             await videoSender.replaceTrack(cameraTrack);
 
-            screenStream.getTracks().forEach((track) => track.stop());
+            screenStream.getTracks().forEach(track => track.stop());
 
             displayMediaRef.current = null;
+            setIsScreenSharing(false);
         };
 
-        await videoSender.replaceTrack(screenTrack);
+    } catch (err) {
+        console.error("Screen sharing failed:", err);
+    }
     };
 
     const toggleMic = () => {
@@ -133,6 +147,10 @@ export default function Meeting(){
             videoTrack.enabled = !videoTrack.enabled;
             setIscameraOn(videoTrack.enabled);
         }
+    }
+
+    const handleLeaveMeeting = () => {
+         
     }
     
     useEffect(()=>{
@@ -249,8 +267,15 @@ export default function Meeting(){
                     {isCameraOn ? <Video size={22} /> : <VideoOff size={22} />}    
                 </button>
 
-                <button className="control-btn"onClick ={handleScreenShare} title= {isScreenSharing ? "Turn Screen Off" : "Turn Screen On"}>
-                {isScreenSharing ? <MonitorUp size={22} /> : <MonitorDown size={22} />} 
+                <button
+                    className={`control-btn ${isScreenSharing ? "active" : ""}`}
+                    onClick={handleScreenShare}
+                    title={isScreenSharing ? "Stop Sharing" : "Share Screen"}
+                >
+                    {isScreenSharing
+                        ? <MonitorDown size={22} />
+                        : <MonitorUp size={22} />
+                    }
                 </button>
                 
                 <button

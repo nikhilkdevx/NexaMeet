@@ -209,3 +209,8 @@
     font-size: 14px;
     line-height: 1.5;
 }
+
+.control-btn.active {
+    background: var(--accent-primary);
+    color: white;
+}
