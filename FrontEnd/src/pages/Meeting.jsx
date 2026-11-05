@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import socket from "../socket";
 import "./Meeting.css";
 import {useParams } from "react-router-dom";
@@ -23,7 +24,7 @@ export default function Meeting(){
     const [isScreenSharing,setIsScreenSharing] = useState(false);
     const cameraStreamRef = useRef(null);
     const displayMediaRef = useRef(null);
-
+    const navigate = useNavigate();
     useEffect(()=>{
         handleCamera();
     },[]);
