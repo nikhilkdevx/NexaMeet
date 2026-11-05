@@ -19,7 +19,6 @@ export default function Meeting(){
     const currentUserId = localStorage.getItem("userId");
     const [isMicOn,setIsMicOn] = useState(true);
     const [isCameraOn,setIscameraOn] = useState(true);
-    const [isSpeakerOn,setIsSpeakerOn] = useState(true);
     const [isChatOpen,setIsChatOpen] = useState(false);
     const [isScreenSharing,setIsScreenSharing] = useState(false);
     const cameraStreamRef = useRef(null);
@@ -135,10 +134,6 @@ export default function Meeting(){
             setIscameraOn(videoTrack.enabled);
         }
     }
-
-    const toggleSpeaker = () => {
-        setIsSpeakerOn((prev) => !prev);
-    };
     
     useEffect(()=>{
         const handleUserJoined = async(data) => {
@@ -254,20 +249,10 @@ export default function Meeting(){
                     {isCameraOn ? <Video size={22} /> : <VideoOff size={22} />}    
                 </button>
 
-                {isScreenSharing ? (
-                    <button className="control-btn"
-                    title="Share Screen"
-                    onClick ={handleScreenShare} >
-                    <MonitorDown size={22} />
+                <button className="control-btn"onClick ={handleScreenShare} title= {isScreenSharing ? "Turn Screen Off" : "Turn Screen On"}>
+                {isScreenSharing ? <MonitorUp size={22} /> : <MonitorDown size={22} />} 
                 </button>
-                ) : (
-                    <button className="control-btn"
-                    title="Share Screen"
-                    onClick ={handleScreenShare} >
-                    <MonitorUp size={22} />
-                </button>
-                )}
-
+                
                 <button
                     className="control-btn"
                     title="Chat"
