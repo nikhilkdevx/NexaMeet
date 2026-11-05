@@ -151,7 +151,22 @@ export default function Meeting(){
     }
 
     const handleLeaveMeeting = () => {
-         
+        cameraStreamRef.current?.getTracks().forEach(track => track.stop());
+
+        // Stop screen sharing
+        displayMediaRef.current?.stop();
+
+        // Close peer connection
+        if (peerConnectionRef.current) {
+            peerConnectionRef.current.close();
+            peerConnectionRef.current = null;
+        }
+
+        // Leave Socket.IO room
+        socket.emit("leave-meeting", { meetingId });
+
+        // Navigate away
+        navigate("/");
     }
     
     useEffect(()=>{
