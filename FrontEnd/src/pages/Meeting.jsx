@@ -246,8 +246,8 @@ export default function Meeting(){
 
             <div className="meeting-controls">
 
-                <button className="control-btn" title="Microphone">
-                    <Mic size={22} />
+                <button className="control-btn" onClick = {handleMicToggle} title = {isMicOn? "Turn Mic Off" : "Turn Mic On"}>
+                    {isMicOn ?<Mic size={21} /> : <MicOff size={21}/>}
                 </button>
 
                 <button className="control-btn" title="Camera">
