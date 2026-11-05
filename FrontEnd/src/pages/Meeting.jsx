@@ -139,8 +139,6 @@ export default function Meeting(){
     const toggleSpeaker = () => {
         setIsSpeakerOn((prev) => !prev);
     };
-
-
     
     useEffect(()=>{
         const handleUserJoined = async(data) => {
