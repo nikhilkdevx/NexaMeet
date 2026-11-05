@@ -302,7 +302,7 @@ export default function Meeting(){
                     <MessageCircle size={22} />
                 </button>
 
-                <button className="control-btn leave-btn" title="Leave Meeting">
+                <button className="control-btn leave-btn" title="Leave Meeting" onClick = {handleLeaveMeeting}>
                     <PhoneOff size={22} />
                 </button>
 
