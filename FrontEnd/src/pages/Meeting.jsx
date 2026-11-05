@@ -120,7 +120,7 @@ export default function Meeting(){
         await videoSender.replaceTrack(screenTrack);
     };
 
-    const handleMicToggle = () => {
+    const toggleMic = () => {
         const audioTrack = cameraStreamRef.current?.getAudioTracks()[0];
         if(audioTrack){
             audioTrack.enabled = !audioTrack.enabled;
@@ -246,12 +246,12 @@ export default function Meeting(){
 
             <div className="meeting-controls">
 
-                <button className="control-btn" onClick = {handleMicToggle} title = {isMicOn? "Turn Mic Off" : "Turn Mic On"}>
-                    {isMicOn ?<Mic size={21} /> : <MicOff size={21}/>}
+                <button className="control-btn" onClick = {toggleMic} title = {isMicOn? "Turn Mic Off" : "Turn Mic On"}>
+                    {isMicOn ?<Mic size={22} /> : <MicOff size={22}/>}
                 </button>
 
-                <button className="control-btn" title="Camera">
-                    <Video size={22} />
+                <button className="control-btn" onClick={toggleCamera} title= {isCameraOn ? "Turn Camera Off" : "Turn Camera On"}>
+                    {isCameraOn ? <Video size={22} /> : <VideoOff size={22} />}    
                 </button>
 
                 {isScreenSharing ? (
