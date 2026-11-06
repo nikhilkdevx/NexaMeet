@@ -1,6 +1,9 @@
 import "./Navbar.css";
 import NexaLogo from "../assets/Nexa-logo.png";
+import { useNavigate } from "react-router-dom";
+
 export default function Navbar(){
+    const navigate = useNavigate();
     return(
         <div className="Navbar">
             <div className="NavImg">
@@ -12,8 +15,8 @@ export default function Navbar(){
             </div>
             
             <div className="Navbarbtns">
-                <button>Sign Up</button>
-                <button>Login</button>
+                <button onClick = {()=> navigate("/signup")}>Sign Up</button>
+                <button onClick = {()=> navigate("/login")} >Login</button>
             </div>
         </div>
     )
