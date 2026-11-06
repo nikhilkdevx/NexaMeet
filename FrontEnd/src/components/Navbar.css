@@ -1,23 +1,102 @@
-.NavbarHead h2{
-    color: white;
-    font-size: 2rem;
-    padding: 1.5rem;
-}
 
-.Navbar{
+.Navbar {
+    width: 100%;
+    padding: 1.2rem 3rem;
+    box-sizing: border-box;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
 
+    position: relative;
+    z-index: 10;
 }
 
-.Navbarbtns{
+.NavImg {
     display: flex;
-    gap:1rem;
-    padding: 1.5em; ;
+    align-items: center;
+    gap: 0.65rem;
 }
 
-.Navbarbtns button  {
-    font-size: 0.9rem;
+.NavImg img {
+    width: 2.4rem;
+    height: 2.4rem;
+    object-fit: contain;
+}
 
+.NavImg h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.NavImg span {
+    color: #9b6dff;
+}
+
+.NavTitle {
+    flex: 1;
+}
+
+.Navbarbtns {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.Navbarbtns button {
+    padding: 0.65rem 1.3rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.Navbarbtns button:first-child {
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: white;
+    border: 1px solid transparent;
+}
+
+.Navbarbtns button:first-child:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(124, 58, 237, 0.4);
+}
+
+.Navbarbtns button:last-child {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(167, 139, 250, 0.6);
+}
+
+.Navbarbtns button:last-child:hover {
+    background: rgba(124, 58, 237, 0.15);
+    border-color: #a78bfa;
+}
+
+@media (max-width: 600px) {
+    .Navbar {
+        padding: 1rem 1.2rem;
+    }
+
+    .NavImg img {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .NavImg h2 {
+        font-size: 1.25rem;
+    }
+
+    .Navbarbtns {
+        gap: 0.5rem;
+    }
+
+    .Navbarbtns button {
+        padding: 0.55rem 0.8rem;
+        font-size: 0.8rem;
+    }
 }
