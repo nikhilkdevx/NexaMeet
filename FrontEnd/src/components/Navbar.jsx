@@ -15,8 +15,8 @@ export default function Navbar(){
             </div>
             
             <div className="Navbarbtns">
-                <button onClick = {()=> navigate("/signup")}>Sign Up</button>
-                <button onClick = {()=> navigate("/login")} >Login</button>
+                <button onClick = {()=> navigate("/auth")}>Sign Up</button>
+                <button onClick = {()=> navigate("/auth")} >Login</button>
             </div>
         </div>
     )
