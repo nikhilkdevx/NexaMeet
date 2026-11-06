@@ -1,33 +1,123 @@
-.Hero{
+
+.Hero {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80vh;
-
+    min-height: 80vh;
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+    gap: 2rem;
 }
 
-.HeroDetails{
+/* Hero text */
+
+.HeroDetails {
     color: white;
     flex: 1;
+    max-width: 600px;
     padding: 1.5rem;
-   
-    
 }
 
-.HeroDetails h1{
-    font-size: 5rem;
+.HeroDetails h1 {
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 750;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 1.2rem;
 }
 
-.HeroDetails p{
-    font-size: 1.2rem;
+.HeroDetails p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #c4c0d4;
+    max-width: 500px;
+    margin-bottom: 1.5rem;
 }
 
-.HeroImage{
-    flex : 1;
-    text-align: center;
+/* Get Started button */
+
+.HeroDetails button {
+    background: #7c3aed;
+    color: white;
+    border: 1px solid transparent;
+    padding: 0.85rem 1.8rem;
+    border-radius: 9px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-.HeroImage img{
-    width: 600px;
+.HeroDetails button:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+}
+
+/* Hero image */
+
+.HeroImage {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.HeroImage img {
+    width: min(100%, 620px);
     height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.HeroImage img:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .Hero {
+        padding: 2rem;
+        gap: 1rem;
+    }
+
+    .HeroDetails h1 {
+        font-size: 3.5rem;
+    }
+
+    .HeroImage img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 650px) {
+    .Hero {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        min-height: auto;
+        padding: 4rem 1.2rem 2rem;
+    }
+
+    .HeroDetails {
+        padding: 1rem 0;
+    }
+
+    .HeroDetails h1 {
+        font-size: clamp(2.7rem, 10vw, 3.5rem);
+        letter-spacing: -1px;
+    }
+
+    .HeroDetails p {
+        font-size: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .HeroImage img {
+        max-width: 420px;
+    }
 }
