@@ -1,118 +1,116 @@
 
 .Hero {
+    position: relative;
+    isolation: isolate;
     display: flex;
     justify-content: space-between;
     align-items: center;
     min-height: 80vh;
-    width: 100%;
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 2rem 3rem;
-    gap: 2rem;
-
+    padding: 2rem 4rem;
+    overflow: hidden;
     background:
-        radial-gradient(
-            ellipse at 75% 45%,
-            rgba(124, 92, 252, 0.18),
-            transparent 45%
-        ),
-    #080612;
+        radial-gradient(ellipse at 68% 48%, rgba(124, 60, 255, 0.28), transparent 38%),
+        radial-gradient(ellipse at 20% 85%, rgba(76, 29, 149, 0.16), transparent 42%),
+        linear-gradient(135deg, #080510 0%, #10091f 55%, #080510 100%);
 }
 
-
-.Hero {
-    
+/* Top-left curved glow */
+.Hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 520px;
+    height: 520px;
+    top: -390px;
+    left: -170px;
+    border-radius: 50%;
+    border: 1px solid rgba(168, 85, 247, 0.45);
+    box-shadow:
+        0 0 25px rgba(124, 58, 237, 0.45),
+        0 0 70px rgba(124, 58, 237, 0.2);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.18), transparent 70%);
 }
 
-/* Hero text */
+/* Bottom-right curved glow */
+.Hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 650px;
+    height: 650px;
+    right: -420px;
+    bottom: -510px;
+    border-radius: 50%;
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    box-shadow:
+        0 0 25px rgba(124, 58, 237, 0.4),
+        0 0 80px rgba(124, 58, 237, 0.2);
+}
 
 .HeroDetails {
     color: white;
     flex: 1;
-    max-width: 600px;
     padding: 1.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .HeroDetails h1 {
     font-size: clamp(3rem, 5vw, 5rem);
-    font-weight: 750;
     line-height: 1.08;
+    margin-bottom: 1rem;
     letter-spacing: -2px;
-    margin-bottom: 1.2rem;
 }
 
 .HeroDetails p {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     line-height: 1.7;
-    color: #c4c0d4;
-    max-width: 500px;
+    color: #c4bfd2;
+    max-width: 440px;
     margin-bottom: 1.5rem;
 }
-
-/* Get Started button */
 
 .HeroDetails button {
     background: #7c3aed;
     color: white;
     border: 1px solid transparent;
-    padding: 0.85rem 1.8rem;
     border-radius: 9px;
+    padding: 0.85rem 1.8rem;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .HeroDetails button:hover {
     background: #6d28d9;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
 }
-
-/* Hero image */
 
 .HeroImage {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .HeroImage img {
-    width: min(100%, 620px);
+    width: min(100%, 650px);
     height: auto;
     object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.HeroImage img:hover {
-    transform: translateY(-5px);
 }
 
 /* Responsive */
-
-@media (max-width: 900px) {
-    .Hero {
-        padding: 2rem;
-        gap: 1rem;
-    }
-
-    .HeroDetails h1 {
-        font-size: 3.5rem;
-    }
-
-    .HeroImage img {
-        width: 100%;
-    }
-}
-
-@media (max-width: 650px) {
+@media (max-width: 768px) {
     .Hero {
         flex-direction: column;
         justify-content: center;
         text-align: center;
+        padding: 3rem 1.25rem;
         min-height: auto;
-        padding: 4rem 1.2rem 2rem;
+        gap: 2rem;
     }
 
     .HeroDetails {
@@ -120,17 +118,15 @@
     }
 
     .HeroDetails h1 {
-        font-size: clamp(2.7rem, 10vw, 3.5rem);
-        letter-spacing: -1px;
+        font-size: clamp(2.7rem, 10vw, 4rem);
     }
 
     .HeroDetails p {
-        font-size: 1rem;
         margin-left: auto;
         margin-right: auto;
     }
 
     .HeroImage img {
-        max-width: 420px;
+        width: min(100%, 450px);
     }
 }
