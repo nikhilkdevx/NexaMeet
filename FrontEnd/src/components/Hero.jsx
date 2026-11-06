@@ -11,7 +11,7 @@ export default function Hero(){
                     Simple and reliable video meetings for 
                     connecting with pepople anywhere.
                 </p>
-                <button onClick = { ()=> navigate("/prejoin")}>Get Started</button>
+                <button onClick = { ()=> navigate("/meeting")}>Get Started</button>
             </div>
             <div className="HeroImage">
                 <img src={PhoneMockup} alt="NexaMeet Video Meeting" />

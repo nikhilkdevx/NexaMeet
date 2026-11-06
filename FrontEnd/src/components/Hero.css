@@ -9,6 +9,19 @@
     margin: 0 auto;
     padding: 2rem 3rem;
     gap: 2rem;
+
+    background:
+        radial-gradient(
+            ellipse at 75% 45%,
+            rgba(124, 92, 252, 0.18),
+            transparent 45%
+        ),
+    #080612;
+}
+
+
+.Hero {
+    
 }
 
 /* Hero text */
