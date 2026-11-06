@@ -146,7 +146,7 @@ export default function AuthData() {
                 </div>
 
                 <button type="submit" className="auth-submit">
-                    {mode === "signup" ? "Create Account" : "Sign In"}
+                    {mode === "signup" ? "Create Account" : "Log In"}
                     <span>→</span>
                 </button>
             </form>

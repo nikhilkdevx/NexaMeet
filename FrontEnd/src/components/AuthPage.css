@@ -5,3 +5,94 @@
     align-items: center;
     padding: 40px;
 }
+
+
+.auth {
+    min-height: 90vh;
+    width: 100%;
+    display: flex;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 50% 55%,
+            rgba(91, 35, 190, 0.22),
+            transparent 48%
+        ),
+        radial-gradient(
+            ellipse at 85% 85%,
+            rgba(76, 29, 149, 0.16),
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #080313,
+            #0b1020 55%,
+            #080313
+        );
+    color: #e5e7eb;
+}
+
+/* Top-left glowing arc */
+.auth::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 650px;
+    height: 420px;
+    top: -280px;
+    left: -180px;
+    border-radius: 50%;
+    border-bottom: 2px solid rgba(124, 92, 252, 0.8);
+    box-shadow:
+        0 12px 35px rgba(124, 92, 252, 0.35),
+        0 20px 90px rgba(124, 92, 252, 0.2);
+    transform: rotate(-20deg);
+}
+
+/* Bottom-right glowing arc */
+.auth::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 700px;
+    height: 450px;
+    bottom: -350px;
+    right: -180px;
+    border-radius: 50%;
+    border-top: 2px solid rgba(124, 92, 252, 0.85);
+    box-shadow:
+        0 -12px 35px rgba(124, 92, 252, 0.35),
+        0 -20px 90px rgba(124, 92, 252, 0.2);
+    transform: rotate(-20deg);
+}
+
+.auth .left {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth .right {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+@media (max-width: 768px) {
+    .auth {
+        flex-direction: column;
+    }
+
+    .auth .left {
+        padding: 25px;
+    }
+
+    .auth .right {
+        padding: 20px;
+    }
+}
