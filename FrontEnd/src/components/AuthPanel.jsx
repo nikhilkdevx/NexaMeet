@@ -1,15 +1,21 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AuthPanel.css";
 
 export default function AuthData() {
-    const [mode, setMode] = useState("signup");
+    const navigate = useNavigate();
 
+    const [mode, setMode] = useState("signup");
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: ""
     });
+
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -18,14 +24,29 @@ export default function AuthData() {
             ...currData,
             [name]: value
         }));
+
+        setMessage("");
+    };
+
+    const handleModeChange = (newMode) => {
+        setMode(newMode);
+        setMessage("");
+        setFormData({
+            name: "",
+            email: "",
+            password: ""
+        });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        try {
-            const isSignup = mode === "signup";
+        setLoading(true);
+        setMessage("");
 
+        const isSignup = mode === "signup";
+
+        try {
             const response = await fetch(
                 `http://localhost:9090/auth/${isSignup ? "register" : "login"}`,
                 {
@@ -45,30 +66,52 @@ export default function AuthData() {
             );
 
             const data = await response.json();
-            console.log(data);
 
             if (!response.ok) {
-                console.error(data.message || "Authentication failed");
+                setMessage(data.message || "Authentication failed.");
+                setMessageType("error");
                 return;
             }
 
-            if (!isSignup) {
+            if (isSignup) {
+                setMessage("Account created successfully! Please log in.");
+                setMessageType("success");
+                setMode("login");
+
+                setFormData({
+                    name: "",
+                    email: formData.email,
+                    password: ""
+                });
+
+            } else {
+                if (!data.token) {
+                    setMessage("Login response did not contain a token.");
+                    setMessageType("error");
+                    return;
+                }
+
                 localStorage.setItem("token", data.token);
+
+                setMessage("Login successful!");
+                setMessageType("success");
+
+                navigate("/meeting");
             }
 
-            setFormData({
-                name: "",
-                email: "",
-                password: ""
-            });
+        } catch (error) {
+            console.error(error);
+            setMessage("Unable to connect to the server. Please try again.");
+            setMessageType("error");
 
-        } catch (err) {
-            console.error("Authentication error:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="auth-panel">
+
             <div className="auth-heading">
                 <span className="auth-eyebrow">WELCOME TO NEXAMEET</span>
 
@@ -89,7 +132,7 @@ export default function AuthData() {
                 <button
                     type="button"
                     className={mode === "signup" ? "active" : ""}
-                    onClick={() => setMode("signup")}
+                    onClick={() => handleModeChange("signup")}
                 >
                     Sign Up
                 </button>
@@ -97,13 +140,14 @@ export default function AuthData() {
                 <button
                     type="button"
                     className={mode === "login" ? "active" : ""}
-                    onClick={() => setMode("login")}
+                    onClick={() => handleModeChange("login")}
                 >
                     Log In
                 </button>
             </div>
 
             <form className="auth-form" onSubmit={handleSubmit}>
+
                 {mode === "signup" && (
                     <div className="form-group">
                         <label htmlFor="name">Full Name</label>
@@ -145,10 +189,24 @@ export default function AuthData() {
                     />
                 </div>
 
-                <button type="submit" className="auth-submit">
-                    {mode === "signup" ? "Create Account" : "Log In"}
-                    <span>→</span>
+                {message && (
+                    <div className={`auth-message ${messageType}`}>
+                        {message}
+                    </div>
+                )}
+
+                <button
+                    type="submit"
+                    className="auth-submit"
+                    disabled={loading}
+                >
+                    {loading
+                        ? "Please wait..."
+                        : mode === "signup"
+                            ? "Create Account"
+                            : "Sign In"}
                 </button>
+
             </form>
 
             <p className="auth-footer">
@@ -159,12 +217,15 @@ export default function AuthData() {
                 <button
                     type="button"
                     onClick={() =>
-                        setMode(mode === "signup" ? "login" : "signup")
+                        handleModeChange(
+                            mode === "signup" ? "login" : "signup"
+                        )
                     }
                 >
                     {mode === "signup" ? "Log in" : "Sign up"}
                 </button>
             </p>
+
         </div>
     );
 }
