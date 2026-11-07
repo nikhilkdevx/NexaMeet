@@ -7,6 +7,5 @@ module.exports.create = async (req,res)=> {
         host : req.user.userId,
         participants: [req.user.userId]
     });
-    console.log(newMeeting);
     res.status(StatusCodes.CREATED).json(newMeeting);
 }
