@@ -4,6 +4,7 @@ import socket from "../socket";
 import "./Meeting.css";
 import {useParams } from "react-router-dom";
 import { Mic, MicOff, Video, VideoOff, MonitorUp, MonitorDown, MessageCircle, PhoneOff } from "lucide-react";
+
 export default function Meeting(){
     const {meetingId} = useParams();
     const [participants,setParticipants] = useState([]);
