@@ -28,7 +28,7 @@ export default function Meeting(){
     const cameraStreamRef = useRef(null);
     const displayMediaRef = useRef(null);
     const navigate = useNavigate();
-    
+
     useEffect(()=>{
         handleCamera();
     },[]);
@@ -59,8 +59,6 @@ export default function Meeting(){
                 });  
             }
         });
-            peerConnectionRef.current.oniceconnectionstatechange = () => {
-            };
             peerConnectionRef.current.addEventListener("track",(e)=>{
                 const remoteStream = e.streams[0];
                 peerVideoRef.current.srcObject = remoteStream;
@@ -71,6 +69,7 @@ export default function Meeting(){
         return peerConnectionRef.current;
         
     }
+    
     const handleConnection = async (stream) => {
         console.log("CREATING OFFER");
         peerConnection();
