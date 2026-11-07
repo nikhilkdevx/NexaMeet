@@ -24,11 +24,8 @@ const initSocket = (server) => {
     });
 
     io.on("connection",(socket) => {
-        console.log("Socket Connected : ",socket.id);
 
         socket.on("join-meeting",async ({meetingId}) => {
-
-            console.log("Meeting ID Recieved",meetingId);
             await socket.join(meetingId);
             const sockets = await io.in(meetingId).fetchSockets();
             const participants = sockets
@@ -40,7 +37,6 @@ const initSocket = (server) => {
         });
 
         socket.on("disconnect",()=> {
-            console.log("Socket disconnected : ",socket.id);
             const meetingId = socket.meetingId;
             if(!meetingId){
                 return;
@@ -52,7 +48,6 @@ const initSocket = (server) => {
         });
 
         socket.on("leave-meeting",()=>{
-            console.log("User left Current Meeting",socket.id);
             const meetingId = socket.meetingId;
             const userId = socket.user.userId;
             socket.leave(meetingId);
@@ -73,7 +68,6 @@ const initSocket = (server) => {
         });
 
         socket.on("icecandidate",({meetingId,candidate}) => {
-            console.log("Received ICE candidate:", candidate);
             socket.to(meetingId).emit("icecandidate",{candidate});
         });
 
@@ -86,7 +80,6 @@ const initSocket = (server) => {
             const savedMessage = await saveMessage({meetingId,content},
                 socket.user.userId
             );
-            console.log(savedMessage);
             io.to(socket.meetingId).emit("new-message",savedMessage);
            } catch (err) {
             socket.emit("message-error",{
