@@ -69,9 +69,8 @@ export default function Meeting(){
         return peerConnectionRef.current;
         
     }
-    
+
     const handleConnection = async (stream) => {
-        console.log("CREATING OFFER");
         peerConnection();
         const tracks = stream.getTracks();
         for(let i = 0;i<tracks.length;i++){
@@ -166,7 +165,6 @@ export default function Meeting(){
     
     useEffect(()=>{
         const handleUserJoined = async(data) => {
-            console.log("USER JOINED:", data.userId);
             setParticipants((currentParticipants)=>{
             if(currentParticipants.includes(data.userId)){
                 return currentParticipants;
@@ -186,7 +184,6 @@ export default function Meeting(){
             );
         };
         const handleReceiveOffer = async (data) => {
-            console.log("OFFER RECEIVED");
             const offer = data.offer;
             const peer = peerConnection();
             const stream = cameraStreamRef.current;
@@ -204,14 +201,12 @@ export default function Meeting(){
             });
         };
         const handleReceiveAnswer = async (data) => {
-            console.log("ANSWER RECEIVED");
             const answer = data.answer;
             const peer = peerConnection();
             await peer.setRemoteDescription(answer);
             
         };
         const handleCandidate = async(data) => {
-            console.log("ICE CANDIDATE RECEIVED");
             const candidate = data.candidate;
             const peer = peerConnection();
             await peer.addIceCandidate(candidate);
