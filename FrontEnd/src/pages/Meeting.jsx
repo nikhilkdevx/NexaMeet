@@ -19,7 +19,7 @@ export default function Meeting(){
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
-    
+
     const currentUserId = localStorage.getItem("userId");
     const [isMicOn,setIsMicOn] = useState(true);
     const [isCameraOn,setIscameraOn] = useState(true);
@@ -28,6 +28,7 @@ export default function Meeting(){
     const cameraStreamRef = useRef(null);
     const displayMediaRef = useRef(null);
     const navigate = useNavigate();
+    
     useEffect(()=>{
         handleCamera();
     },[]);
