@@ -15,6 +15,7 @@ export default function Meeting(){
     const meetingIdRef = useRef("");
     const [messages,setMessages] = useState([]);
     const [messageInput,setMessageInput] = useState("");
+    
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
