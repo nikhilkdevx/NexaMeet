@@ -15,10 +15,11 @@ export default function Meeting(){
     const meetingIdRef = useRef("");
     const [messages,setMessages] = useState([]);
     const [messageInput,setMessageInput] = useState("");
-    
+
     useEffect(()=>{
         meetingIdRef.current = meetingId;
     },[meetingId]);
+    
     const currentUserId = localStorage.getItem("userId");
     const [isMicOn,setIsMicOn] = useState(true);
     const [isCameraOn,setIscameraOn] = useState(true);
